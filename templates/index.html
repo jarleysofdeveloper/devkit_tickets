@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+</head>
+<body>
+    WELCOME TO APP FLASK AND JINJA 2 <br>
+    <button id="refresh">MOSTRAR O REFRESCAR DATOS</button> <br>
+    <code id="resultado">
+        
+    </code>
+
+    <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+</body>
+</html>
+<script>
+    $(document).ready(function() {
+        // Realizar la solicitud AJAX con GET
+        $("#refresh").click(()=>{
+            $.ajax({
+                url: 'http://192.168.18.5:5000/api/users',  // URL del archivo en el servidor
+                type: 'GET',  // Método de solicitud
+                dataType: 'json',  // Tipo de datos que esperas recibir del servidor (puedes cambiarlo según tus necesidades)
+                success: function(data) {
+                    // Función que se ejecuta si la solicitud es exitosa
+                    $('#resultado').text(JSON.stringify(data));
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    // Función que se ejecuta si hay un error en la solicitud
+                    console.error('Error en la solicitud: ', textStatus, errorThrown);
+                }
+            });
+        })
+            
+    });
+</script>

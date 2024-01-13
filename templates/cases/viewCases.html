@@ -1,0 +1,43 @@
+{% extends './base.html' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12 ">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Buscar Caso</h5>
+                    <div class="search-bar mt-2">
+                        
+                        <input type="text" class="form-control" id="search-case" placeholder="Escriba aqui el contenedor del caso para buscarlo" title="Enter search keyword">
+                        
+                        
+                    </div><!-- End Search Bar -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Todos los Casos</h5> <button id="reload">Reload</button>
+                    <table class="table display" id="tableCases">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>DESCRIPCION</th>
+                                <th>FECHA</th>
+                                <th>OPCIONES</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/jquery.js' ) }}"></script>
+    <script src="{{ url_for('static', filename='js/cases/query_cases.js' ) }}"></script>
+{% endblock %}
