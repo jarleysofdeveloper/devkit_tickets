@@ -1,5 +1,5 @@
 #TODO import resources for manage the application
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify,session,request, redirect, url_for
 from dev_routes import Routes
 from flask_cors import CORS
 from database.mysql_connect import connectdb
@@ -18,7 +18,7 @@ mysql = connectdb(app)
 api(app, mysql, jsonify)
 
 #TODO init the routes for manage aplication
-Routes.routes(app, render_template)
+Routes.routes(app, render_template,session, request, mysql, jsonify, redirect, url_for)
 
 #TODO run application web
 if __name__ == '__main__':
