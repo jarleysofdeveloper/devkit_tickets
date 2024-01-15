@@ -3,6 +3,9 @@ $(document).ready(function () {
     const getCasesforDatabase = (()=>{
         // Inicializar la tabla DataTable
         $('#tableCases').DataTable({
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json"
+            },
             ajax: {
                 url: 'http://192.168.18.5:5000/api/v1/getcases',
                 dataSrc: ''

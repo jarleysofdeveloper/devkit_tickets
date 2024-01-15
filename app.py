@@ -4,9 +4,16 @@ from dev_routes import Routes
 from flask_cors import CORS
 from database.mysql_connect import connectdb
 from dev_api.api import api
+from dotenv import load_dotenv
+import os
+import secrets
 
 #TODO init app
 app = Flask(__name__)
+app.config['SECRET_KEY'] = os.getenv('FLASK_SECRET_KEY')
+
+#secret_key = secrets.token_hex(16) genera al secret key para el manejo de sesiones
+#print(secret_key)
 
 CORS(app, resources={r"/api/*": {"origins": "http://192.168.18.5:5000"}})
 
