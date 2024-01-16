@@ -1,7 +1,11 @@
 $(document).ready(function () {
+
+    var socket = io.connect('http://192.168.18.5:5000');
+
     
     const getCasesforDatabase = (()=>{
-        // Inicializar la tabla DataTable
+        var dataTable;
+
         $('#tableCases').DataTable({
             "language": {
                 "url": "https://cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json"
@@ -24,13 +28,31 @@ $(document).ready(function () {
             ]
         });
         
+        socket.on('connect', function() {
+            socket.emit('join_room', { room: 'all_users' });
+
+            socket.emit('update_table_data');
+            
+        });
+
+        // Manejar el evento 'update_table_data' para recargar solo los datos de la DataTable
+        socket.on('update_table_data', function() {
+            dataTable = $('#tableCases').DataTable();
+            if (dataTable) {
+                dataTable.ajax.reload();
+                //console.log('DataTable actualizada');
+            }
+        });
+        
+        //actualiza la tabla en forma bidireccional
+        socket.emit('reload_table');
 
     });
 
-    const reloadTable = (()=>{
+    /*const reloadTable = (()=>{
         $('#tableCases').DataTable().ajax.reload();
-        console.log('ejecucion');
-    })
+
+    })*/
     
     $('#tableCases tbody').on('click', '.btn-action', function() {
         // Obtener el ID de la fila correspondiente
@@ -41,9 +63,10 @@ $(document).ready(function () {
     });
 
     $('#reload').click(()=>{
-        reloadTable();
+        //emite la actualizacion de la tabla en las diferentes pantallas donde se este visualizando
+        socket.emit('reload_table');
     })
-
+    
     getCasesforDatabase();
 
 });
