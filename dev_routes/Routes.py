@@ -15,18 +15,19 @@ def routes(app, render_template, session, request, mysql, jsonify, redirect, url
             password = request.form.get('password')
             
             query = mysql.connection.cursor()
-            query.execute('SELECT id,name,username,password,email FROM users where username = %s ', [user])
+            query.execute('SELECT id,name,username,password,email,role FROM users where username = %s ', [user])
             user = query.fetchone()
             query.close()
 
             if user:
-                stored_hash = user[3]
+                password_hash = user[3]
 
-                if check_password_hash(stored_hash, password):
+                if check_password_hash(password_hash, password):
                     session["id"] = user[0]
                     session["name"] = user[1]
                     session["username"] = user[2]
                     session["email"] = user[4]
+                    session["role"] = user[5]
                     return redirect(url_for('home'))
                 
             return redirect(url_for('index'))
@@ -69,6 +70,7 @@ def routes(app, render_template, session, request, mysql, jsonify, redirect, url
                 return render_template('signup.html')
             
         return render_template('signup.html')
+
     #--------------------------------------------------------------------------#
     #hace la actualizacion en tiempo real de los datos
     @socketio.on('reload_table')

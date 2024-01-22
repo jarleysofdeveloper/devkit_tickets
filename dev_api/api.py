@@ -21,3 +21,5 @@ def api(app, mysql, jsonify):
         cases_list = [{'id': row[0], 'description': row[1],'dateCase':row[2]} for row in cases]
         
         return jsonify(cases_list)
+    
+    
